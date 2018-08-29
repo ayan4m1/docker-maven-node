@@ -8,7 +8,7 @@ RUN mkdir $NVM_DIR
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 RUN apt-get update \
-    && apt-get install -y curl \
+    && apt-get install -y curl vim git-core \
     && apt-get -y autoclean
 
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
