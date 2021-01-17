@@ -4,6 +4,6 @@ Combine some great things under one umbrella.
 
  - Maven 3.6.3
  - Java 15
- - Node 14 (via nvm)
+ - Node 15 (via nvm)
  - vim
  - Git
