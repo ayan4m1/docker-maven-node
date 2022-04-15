@@ -2,8 +2,9 @@
 
 Combine some great things under one umbrella.
 
- - Maven 3.5
- - Node 10 (via nvm)
- - Gulp 4 (via npm)
+ - Maven 3.6.3
+ - Java 15
+ - Node 15 (via nvm)
+ - Gulp CLI (via npm)
  - vim
  - Git
