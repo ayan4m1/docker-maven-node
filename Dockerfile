@@ -1,7 +1,7 @@
 FROM maven:3.8-openjdk-18
 
 ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 15.5.1
+ENV NODE_VERSION 18.13.0
 
 RUN mkdir $NVM_DIR
 
