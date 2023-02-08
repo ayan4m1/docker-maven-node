@@ -7,9 +7,9 @@ RUN mkdir $NVM_DIR
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
-RUN microdnf install curl vim git
+RUN microdnf install curl git
 
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 
 RUN source $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
@@ -18,7 +18,5 @@ RUN source $NVM_DIR/nvm.sh \
 
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
-
-RUN npm install -g gulp-cli
 
 CMD [ "/bin/bash" ]
