@@ -1,4 +1,4 @@
-FROM maven:3.6.3-openjdk-15
+FROM maven:3.8-openjdk-18
 
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION 15.5.1
