@@ -1,6 +1,5 @@
 ARG MVN_VERSION
 ARG JDK_VERSION
-ARG NVM_VERSION
 ARG NODE_VERSION
 
 FROM maven:${MVN_VERSION}-openjdk-${JDK_VERSION}
@@ -18,7 +17,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 RUN microdnf install curl git
 
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 
 RUN source $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \

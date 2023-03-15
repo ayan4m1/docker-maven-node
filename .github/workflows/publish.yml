@@ -9,7 +9,6 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   MVN_VERSION: '3.8'
   JDK_VERSION: '18'
-  NVM_VERSION: '0.39.3'
   NODE_VERSION: '18.15.0'
 jobs:
   publish:
@@ -44,5 +43,4 @@ jobs:
           build-args: |
             MVN_VERSION=${{ env.MVN_VERSION }}
             JDK_VERSION=${{ env.JDK_VERSION }}
-            NVM_VERSION=${{ env.NVM_VERSION }}
             NODE_VERSION=${{ env.NODE_VERSION }}
