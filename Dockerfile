@@ -1,13 +1,9 @@
 ARG MVN_VERSION
 ARG JDK_VERSION
-ARG NODE_VERSION
 
 FROM maven:${MVN_VERSION}-openjdk-${JDK_VERSION}
 
-LABEL org.opencontainers.image.source=https://github.com/ayan4m1/docker-maven-node
-LABEL org.opencontainers.image.description="Maven/Node.JS"
-LABEL org.opencontainers.image.licenses=MIT
-
+ARG NODE_VERSION
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION ${NODE_VERSION}
 
