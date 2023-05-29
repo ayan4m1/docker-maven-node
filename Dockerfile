@@ -11,7 +11,9 @@ RUN mkdir $NVM_DIR
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
-RUN microdnf install curl git
+RUN apt-get update
+
+RUN apt-get install curl git
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 
