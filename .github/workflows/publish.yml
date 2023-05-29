@@ -7,9 +7,9 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  MVN_VERSION: '3.8'
+  MVN_VERSION: '3.9'
   JDK_VERSION: '18'
-  NODE_VERSION: '18.15.0'
+  NODE_VERSION: '18.16.0'
 jobs:
   publish:
     runs-on: ubuntu-latest
