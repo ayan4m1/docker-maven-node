@@ -1,7 +1,7 @@
 ARG MVN_VERSION
 ARG JDK_VERSION
 
-FROM maven:${MVN_VERSION}-openjdk-${JDK_VERSION}
+FROM maven:${MVN_VERSION}-eclipse-temurin-${JDK_VERSION}
 
 ARG NODE_VERSION
 ENV NVM_DIR /usr/local/nvm
