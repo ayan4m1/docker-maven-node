@@ -2,14 +2,14 @@ name: Publish packages to GHCR
 on:
   push:
     branches:
-      - 'main'
+      - "main"
   workflow_dispatch:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  MVN_VERSION: '3.9'
-  JDK_VERSION: '20'
-  NODE_VERSION: '18.16.0'
+  MVN_VERSION: "3.9"
+  JDK_VERSION: "20"
+  NODE_VERSION: "20.5.0"
 jobs:
   publish:
     runs-on: ubuntu-latest
