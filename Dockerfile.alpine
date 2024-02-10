@@ -1,21 +1,22 @@
 ARG MVN_VERSION
 ARG JDK_VERSION
 
-FROM maven:${MVN_VERSION}-eclipse-temurin-${JDK_VERSION}
+FROM maven:${MVN_VERSION}-eclipse-temurin-${JDK_VERSION}-alpine
 
 ARG NODE_VERSION
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION ${NODE_VERSION}
 
-RUN apt-get update && apt-get dist-upgrade -y && apt-get install -y curl git bash
+RUN apk --no-cache -U upgrade && apk add --no-cache libstdc++ coreutils curl bash
 
 WORKDIR $NVM_DIR
 
-SHELL [ "bash", "-c" ]
-
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
-RUN source $NVM_DIR/nvm.sh \
+RUN echo "export NVM_NODEJS_ORG_MIRROR=https://unofficial-builds.nodejs.org/download/release" >> .profile \
+    && echo "nvm_get_arch() { nvm_echo \"x64-musl\"; }" >> .profile \
+    && source .profile \
+    && source $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
     && nvm alias default $NODE_VERSION \
     && nvm use default

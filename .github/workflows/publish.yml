@@ -7,40 +7,81 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  MVN_VERSION: "3.9"
-  JDK_VERSION: "20"
-  NODE_VERSION: "20.5.0"
 jobs:
   publish:
+    strategy:
+      matrix:
+        node-version: [18, 20]
+        jdk-version: [17, 21]
+        mvn-version: ["3.8", "3.9"]
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       - name: Build and push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:mvn${{ env.MVN_VERSION }}-jdk${{ env.JDK_VERSION }}-n${{ env.NODE_VERSION }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:mvn${{ matrix.mvn-version }}-jdk${{ matrix.jdk-version }}-n${{ matrix.node-version }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            MVN_VERSION=${{ env.MVN_VERSION }}
-            JDK_VERSION=${{ env.JDK_VERSION }}
-            NODE_VERSION=${{ env.NODE_VERSION }}
+            MVN_VERSION=${{ matrix.mvn-version }}
+            JDK_VERSION=${{ matrix.jdk-version }}
+            NODE_VERSION=${{ matrix.node-version }}
+  publish-alpine:
+    strategy:
+      matrix:
+        node-version: [18, 20]
+        jdk-version: [17, 21]
+        mvn-version: ["3.8", "3.9"]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          file: Dockerfile.alpine
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest-alpine
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:mvn${{ matrix.mvn-version }}-jdk${{ matrix.jdk-version }}-n${{ matrix.node-version }}-alpine
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            MVN_VERSION=${{ matrix.mvn-version }}
+            JDK_VERSION=${{ matrix.jdk-version }}
+            NODE_VERSION=${{ matrix.node-version }}
