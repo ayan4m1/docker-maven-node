@@ -1,0 +1,3 @@
+FROM alpine:latest
+
+CMD ["echo", "This image has been removed from Docker Hub.\nPlease migrate to the images available at https://github.com/ayan4m1/docker-maven-node/pkgs/container/docker-maven-node"]
