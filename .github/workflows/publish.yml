@@ -39,7 +39,6 @@ jobs:
         with:
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:mvn${{ matrix.mvn-version }}-jdk${{ matrix.jdk-version }}-n${{ matrix.node-version }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
@@ -78,7 +77,6 @@ jobs:
           push: true
           file: Dockerfile.alpine
           tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest-alpine
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:mvn${{ matrix.mvn-version }}-jdk${{ matrix.jdk-version }}-n${{ matrix.node-version }}-alpine
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
