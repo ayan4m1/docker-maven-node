@@ -33,3 +33,10 @@ jobs:
           mvn_version: ${{ matrix.mvn-version }}
           jdk_version: ${{ matrix.jdk-version }}
           node_version: ${{ matrix.node-version }}
+      - uses: vlaurin/action-ghcr-prune@v0.6.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          user: ayan4m1
+          container: docker-maven-node
+          dry-run: true
+          prune-untagged: true
