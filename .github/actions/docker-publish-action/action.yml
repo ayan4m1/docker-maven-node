@@ -51,11 +51,11 @@ runs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        file: ${{ use_alpine == 'true' && 'Dockerfile.alpine' || 'Dockerfile' }}
+        file: ${{ inputs.use_alpine == 'true' && 'Dockerfile.alpine' || 'Dockerfile' }}
         tags: |
-          ${{ tag_latest == 'true' && use_alpine == 'true' && 'latest-alpine' || ''}}
-          ${{ tag_latest == 'true' && use_alpine == 'false' && 'latest' || ''}}
-          ${{ inputs.registry }}/${{ inputs.image_name }}:mvn${{ inputs.mvn_version }}-jdk${{ inputs.jdk_version }}-n${{ inputs.node_version }}${{ use_alpine == true && '-alpine' || '' }}
+          ${{ inputs.tag_latest == 'true' && inputs.use_alpine == 'true' && 'latest-alpine' || ''}}
+          ${{ inputs.tag_latest == 'true' && inputs.use_alpine == 'false' && 'latest' || ''}}
+          ${{ inputs.registry }}/${{ inputs.image_name }}:mvn${{ inputs.mvn_version }}-jdk${{ inputs.jdk_version }}-n${{ inputs.node_version }}${{ inputs.use_alpine == true && '-alpine' || '' }}
         labels: ${{ steps.meta.outputs.labels }}
         build-args: |
           MVN_VERSION=${{ inputs.mvn_version }}
