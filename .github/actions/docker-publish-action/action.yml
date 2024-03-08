@@ -1,0 +1,65 @@
+name: "Publish to Docker registry"
+description: "Publish an image/tags to a Docker registry"
+inputs:
+  registry:
+    description: "Docker registry hostname"
+    required: false
+    default: "ghcr.io"
+  tag_latest:
+    description: "Should this image be tagged as 'latest'"
+    required: false
+    default: false
+  use_alpine:
+    description: "Whether or not to build an Alpine image"
+    required: false
+    default: false
+  username:
+    description: "Docker registry account username"
+    required: true
+  password:
+    description: "Docker registry account password"
+    required: true
+  image_name:
+    description: "Docker image name"
+    required: true
+  mvn_version:
+    description: "Maven version to build with"
+    required: true
+  jdk_version:
+    description: "JDK version to build with"
+    required: true
+  node_version:
+    description: "Node.js version to build with"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ inputs.registry }}
+        username: ${{ inputs.username }}
+        password: ${{ inputs.password }}
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ inputs.registry }}/${{ inputs.image_name }}
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        file: ${{ use_alpine == 'true' && 'Dockerfile.alpine' || 'Dockerfile' }}
+        tags: |
+          ${{ tag_latest == 'true' && use_alpine == 'true' && 'latest-alpine' || ''}}
+          ${{ tag_latest == 'true' && use_alpine == 'false' && 'latest' || ''}}
+          ${{ inputs.registry }}/${{ inputs.image_name }}:mvn${{ inputs.mvn_version }}-jdk${{ inputs.jdk_version }}-n${{ inputs.node_version }}${{ use_alpine == true && '-alpine' || '' }}
+        labels: ${{ steps.meta.outputs.labels }}
+        build-args: |
+          MVN_VERSION=${{ inputs.mvn_version }}
+          JDK_VERSION=${{ inputs.jdk_version }}
+          NODE_VERSION=${{ inputs.node_version }}
