@@ -8,11 +8,11 @@ inputs:
   tag_latest:
     description: "Should this image be tagged as 'latest'"
     required: false
-    default: false
+    default: "false"
   use_alpine:
     description: "Whether or not to build an Alpine image"
     required: false
-    default: false
+    default: "false"
   username:
     description: "Docker registry account username"
     required: true
