@@ -5,7 +5,7 @@ on:
       - "main"
   workflow_dispatch:
 env:
-  NODE_VERSIONS: ("18", "20")
+  NODE_VERSIONS: ("18", "20", "22")
   JDK_VERSIONS: ("8", "11", "17", "21")
   MVN_VERSIONS: ("3.8", "3.9")
 jobs:
@@ -19,7 +19,7 @@ jobs:
         use-alpine: ["true", "false"]
         mvn-version: ["3.8", "3.9"]
         jdk-version: ["8", "11", "17", "21"]
-        node-version: ["18", "20"]
+        node-version: ["18", "20", "22"]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
